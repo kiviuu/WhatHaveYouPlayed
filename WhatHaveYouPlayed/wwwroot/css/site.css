@@ -1,0 +1,58 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.bg-grey {
+    background-image: linear-gradient(#460A49, #1E5D03);
+}
+.bg-purple{
+    background-color: #512380;
+}
+.text-grey {
+    color: #151515;
+}
+.my-border-orange {
+    border: 3px solid #b48108;
+    border-radius: 5px;
+}
+
+.my-aside-panel {
+    position: sticky;
+    height: calc(100vh - 8.5rem);
+    overflow-y: auto;
+}
+
+.my-posts-panel {
+    position: sticky;
+    overflow-y: auto;
+    height: calc(75vh - 7rem);
+}
+.bg-secondary-green {
+    background-color: #17330C;
+}
+.bg-secondary-purple {
+    background-color: #511637;
+}
+.btn-purple {
+    background-color: #511637;
+    border: none;
+}
+.btn-purple:hover {
+    background-color: #2C061A;
+    transform: scale(1.1);
+}

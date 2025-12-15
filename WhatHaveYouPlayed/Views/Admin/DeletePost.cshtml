@@ -1,0 +1,59 @@
+﻿@{
+    Layout = "_LayoutAdminPanel";
+}
+@using WhatHaveYouPlayed.Models.Dto
+@model PanelDto
+<div class="col-lg-12">
+    <form asp-action="DeletePost" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group mb-2">
+            @Html.TextBoxFor(m=>m.BlogPost.PostId, new{placeholder="Post Id", @class="form-control", maxlength="450", style="height: 50px", title="Post Id"})
+            @Html.ValidationMessageFor(m => m.BlogPost.PostId, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Delete Post
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Post confirmation</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" value="Delete Post" class="btn btn-danger" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="col-lg-12 mt-4">
+        <div class="card my-posts-panel w-100">
+            <div class="card-title bg-primary fw-bold text-center mb-0 p-2">
+                <h2 class="text-white">Blog Posts List</h2>
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach (var post in Model.blogPosts)
+                {
+                    <li class="list-group-item">
+                        <h5><span class="text-success">Post Id: @post.PostId</span> <span class="text-black">Create date: @String.Format("{0:dd/MM/yyyy HH:mm}", post.PostDate)</span></h5>
+                        <blockquote class="blockquote" style="font-size: 18px;">
+                            <span class="text-center">Post Title: @post.Title</span>
+                        </blockquote>
+
+                        
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+    </div>

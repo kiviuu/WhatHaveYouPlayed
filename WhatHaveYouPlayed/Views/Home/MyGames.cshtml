@@ -1,0 +1,85 @@
+﻿@model IEnumerable<UserGameData>
+@using Microsoft.AspNetCore.Routing
+@using System.Collections.Generic
+
+@{
+    // style - name dictonary
+    var statusMap = new Dictionary<string, (string Name, string Class)>
+    {
+        { "1", ("All", "btn-dark") },
+        { "2", ("Playing", "btn-warning") },
+        { "3", ("Complete", "btn-success") },
+        { "4", ("Planning", "btn-primary") },
+        { "5", ("Awaiting", "btn-info") },
+        { "6", ("Dropped", "btn-danger") }
+    };
+
+    // curren status - default 1 - All
+    var currentStatusId = ViewContext.RouteData.Values["id"] as string ?? "1";
+    var activeStatus = statusMap.ContainsKey(currentStatusId) ? statusMap[currentStatusId] : statusMap["1"];
+    var activeStatusName = activeStatus.Name;
+    var activeStatusClass = activeStatus.Class;
+
+    // Ustalenie koloru tekstu dla aktywnego przycisku (dla kontrastu, jeśli kolor bazowy jest ciemny)
+    var activeTextColor = activeStatusClass == "btn-dark" || activeStatusClass == "btn-primary" || activeStatusClass == "btn-danger"
+                          ? "text-white"
+                          : "text-dark";
+}
+
+<div class="container">
+    <div class="row">
+
+        <div class="btn-group mb-5 d-none d-sm-flex" role="group">
+            @foreach (var status in statusMap)
+            {
+                var isActive = status.Key == currentStatusId;
+                <a class="btn btn-lg @status.Value.Class fw-bold @(isActive ? "active" : "")"
+                   asp-action="MyGames"
+                   asp-route-id="@status.Key"
+                   asp-route-status="@status.Value.Name">
+                    @status.Value.Name
+                </a>
+            }
+        </div>
+
+        <div class="dropdown mb-5 d-sm-none">
+            <button class="btn btn-lg @activeStatusClass dropdown-toggle fw-bold w-100 @activeTextColor"
+                    type="button"
+                    id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Status: @activeStatusName
+            </button>
+            <ul class="dropdown-menu w-100" aria-labelledby="statusDropdown">
+                @foreach (var status in statusMap)
+                {
+                    var linkTextColor = status.Value.Class == "btn-dark" ||
+                    status.Value.Class == "btn-primary" ||
+                    status.Value.Class == "btn-danger" ? "text-white" : "text-dark";
+
+                    var linkBgClass = status.Value.Class.Replace("btn-", "bg-");
+
+                    <li>
+                        <a class="dropdown-item fw-bold @linkTextColor @linkBgClass"
+                           asp-action="MyGames"
+                           asp-route-id="@status.Key"
+                           asp-route-status="@status.Value.Name">
+                            @status.Value.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4 mt-4">
+                <div class="card h-100 w-100" style="width: 18rem;">
+                    <img src="@ViewBag.GameImagePath/@item.Game.ImgSrc" class="card-img-top h-75" alt="Game Image">
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-black fw-bold fs-5 mb-4">@item.Game.Name</h5>
+                        <a class="btn btn-lg btn-primary" asp-controller="Game" asp-action="SetStatus" asp-route-id="@item.GameId">@item.State.State</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

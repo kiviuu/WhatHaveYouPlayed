@@ -1,0 +1,49 @@
+﻿@{
+    Layout = "_LayoutAdminPanel";
+}
+@using WhatHaveYouPlayed.Models.Dto
+@model PanelDto
+<div class="col-lg-12">
+    <form asp-action="CreatePost" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group mb-2">
+            @Html.TextAreaFor(m=>m.BlogPost.Title, new{placeholder="Title", @class="form-control", maxlength="100", style="height: 75px", required="required"})
+            @Html.ValidationMessageFor(m => m.BlogPost.Title, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group mb-2">
+            @Html.TextAreaFor(m=>m.BlogPost.Content, new{placeholder="Content", @class="form-control", style="height: 200px", maxlength="200", required="required"})
+            @Html.ValidationMessageFor(m => m.BlogPost.Content, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group mb-2">
+            @*Here input for Image*@
+            <input type="file" name="postImage"  asp-for="PostImage" class="form-control" accept="@ViewBag.ImageAcceptString">
+        </div>
+        <input type="submit" value="Create Post" class="btn btn-success fw-bold btn-lg" />
+        
+        @*
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Create Post
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Create this new Post?</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" value="Create Post" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        *@
+    </form>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</div>

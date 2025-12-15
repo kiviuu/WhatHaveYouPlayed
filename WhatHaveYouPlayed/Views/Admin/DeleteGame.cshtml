@@ -1,0 +1,57 @@
+﻿@{
+    Layout = "_LayoutAdminPanel";
+}
+@using WhatHaveYouPlayed.Models.Dto
+@model PanelDto
+<div class="col-lg-12">
+    <form asp-action="DeleteGame" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group mb-2">
+            @Html.TextBoxFor(m=>m.GameData.GameId, new{placeholder="Game Id", @class="form-control", maxlength="450", style="height: 50px", title="Game Id"})
+            @Html.ValidationMessageFor(m => m.GameData.GameId, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Delete Game
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Game confirmation</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" value="Delete Game" class="btn btn-danger" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="col-lg-12 mt-4">
+        <div class="card my-posts-panel w-100">
+            <div class="card-title bg-primary fw-bold text-center mb-0 p-2">
+                <h2 class="text-white">Games List</h2>
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach (var game in Model.games)
+                {
+                    <li class="list-group-item">
+                        <h5><span class="text-success">Game Id: @game.GameId</span> <span class="text-black">Producent: @game.Producent.CompanyName</span></h5>
+                        <blockquote class="blockquote" style="font-size: 18px;">
+                            <span class="text-center fw-bold">@game.Name</span>
+                        </blockquote>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+    </div>

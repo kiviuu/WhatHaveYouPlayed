@@ -1,0 +1,63 @@
+﻿@using WhatHaveYouPlayed.Models.Dto
+@model AccountDto
+@{
+    Layout = "/Views/Shared/_LayoutOverview.cshtml";
+}
+
+<form asp-action="SendMessageToAdmin" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group mb-2">
+        @Html.TextAreaFor(m=>m.UserMessage.Topic ,new{placeholder="Topic", @class="form-control", maxlength="100", style="height: 75px"})
+        @Html.ValidationMessageFor(m => m.UserMessage.Topic, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group mb-2">
+        @Html.TextAreaFor(m=>m.UserMessage.Content ,new{placeholder="Content", @class="form-control", style="height: 150px", maxlength="150"})
+        @Html.ValidationMessageFor(m => m.UserMessage.Content, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Send Message
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Send Message confirmation</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Do You want to send this message to Admin?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Send Message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@*
+<form asp-action="SendMessageToAdmin" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group mb-2">
+        @Html.TextBoxFor(m=>m.UserMessage.Topic ,new{placeholder="Topic", @class="form-control"})
+        @Html.ValidationMessageFor(m => m.UserMessage.Topic, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group mb-2">
+        @Html.TextAreaFor(m=>m.UserMessage.Content ,new{placeholder="Content", @class="form-control"})
+        @Html.ValidationMessageFor(m => m.UserMessage.Content, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Button trigger modal -->
+    <button type="submit" class="btn btn-primary">
+        Send Message
+    </button>
+</form>
+*@
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    }

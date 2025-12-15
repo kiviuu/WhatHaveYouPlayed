@@ -1,0 +1,38 @@
+﻿@using WhatHaveYouPlayed.Data
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+        var user = await UserManager.FindByNameAsync(User.Identity.Name);
+        var userRoles = await UserManager.GetRolesAsync(user);
+        if(userRoles.Contains("Admin")){
+            <li class="nav-item">
+                <a class="nav-link fw-bold text-white btn btn-lg btn-secondary btn-purple" asp-controller="Admin" asp-action="AdminPanel" title="Admin Panel">Admin Panel</a>
+            </li>
+        }
+    <li class="nav-item">
+        <a class="nav-link fw-bold text-white btn btn-lg btn-secondary btn-purple" asp-controller="Account" asp-action="Stats" title="Account">@User.Identity?.Name</a>
+    </li>
+    <li class="nav-item">
+        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="nav-link btn btn-lg btn-secondary btn-purple fw-bold fs-5 text-white" title="Logout">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark fw-bold text-white btn btn-lg btn-secondary btn-purple" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark fw-bold text-white btn btn-lg btn-secondary btn-purple" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
+</ul>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

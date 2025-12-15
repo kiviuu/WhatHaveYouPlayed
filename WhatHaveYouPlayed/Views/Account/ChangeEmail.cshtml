@@ -1,0 +1,28 @@
+﻿@using WhatHaveYouPlayed.Models.Dto
+@model AccountDto
+@{
+    Layout = "/Views/Shared/_LayoutOverview.cshtml";
+}
+<form asp-action="ChangeEmail" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group mb-2">
+        @Html.TextBoxFor(m=>m.ChangeData.OldEmail ,new{placeholder="Old Email", @class="form-control", @type="email"})
+        @Html.ValidationMessageFor(m => m.ChangeData.OldEmail, "", new { @class = "text-danger" })
+        @*<label asp-for="ChangeData.OldPassword" class="control-label"></label>
+        <input asp-for="ChangeData.OldPassword" class="form-control" />
+        <span asp-validation-for="ChangeData.OldPassword" class="text-danger"></span>*@
+    </div>
+    <div class="form-group mb-2">
+        @Html.TextBoxFor(m=>m.ChangeData.NewEmail ,new{placeholder="New Email", @class="form-control", @type="email"})
+        @Html.ValidationMessageFor(m => m.ChangeData.NewEmail, "", new { @class = "text-danger" })
+        @*<label asp-for="ChangeData.NewPassword" class="control-label"></label>
+        <input asp-for="ChangeData.NewPassword" class="form-control" />
+        <span asp-validation-for="ChangeData.NewPassword" class="text-danger"></span>*@
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Update Email" class="btn btn-primary" />
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

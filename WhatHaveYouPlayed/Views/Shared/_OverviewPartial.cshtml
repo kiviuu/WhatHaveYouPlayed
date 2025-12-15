@@ -1,0 +1,42 @@
+﻿@using WhatHaveYouPlayed.Data
+@using WhatHaveYouPlayed.Models.Dto
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model AccountDto
+<div class="card m-auto" style="width: 18rem;">
+    <div class="card-header">
+        <p>
+            <span class="fw-bold">@Html.DisplayNameFor(us => Model.Username):</span> @Model.Username
+        </p>
+        <p>
+            <span class="fw-bold">@Html.DisplayNameFor(us => Model.Role):</span> @Model.Role
+        </p>
+        <p>
+            <span class="fw-bold">@Html.DisplayNameFor(us => Model.Email):</span> @Model.Email
+        </p>
+        <p class="mb-5">
+            <span class="fw-bold">@Html.DisplayNameFor(us => Model.CreateDate):</span> @String.Format("{0:dd/MM/yyyy}", Model.CreateDate)
+        </p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><a class="btn btn-primary w-100" asp-action="Stats">Stats</a></li>
+        @{
+            var user = await UserManager.FindByNameAsync(User.Identity.Name);
+            var userRoles = await UserManager.GetRolesAsync(user);
+            if (userRoles.Contains("User"))
+            {
+                <li class="list-group-item"><a class="btn btn-warning w-100" asp-action="SendMessageToAdmin">Message to Admin</a></li>
+            }
+        }
+        <li class="list-group-item"><a class="btn btn-primary w-100" asp-action="ChangePassword">Change Password</a></li>
+        @*<li class="list-group-item"><a class="btn btn-primary w-100" asp-area="Identity" asp-page="/Account/ChangePassword">Change Password</a></li>*@
+        @*<li class="list-group-item"><a class="btn btn-primary w-100" asp-action="ChangeEmail">Change Email</a></li>*@
+        <li class="list-group-item"><a class="btn btn-danger w-100" asp-action="DeleteAccount">Delete Account</a></li>
+    </ul>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

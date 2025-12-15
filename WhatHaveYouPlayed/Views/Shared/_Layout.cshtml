@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WhatHaveYouPlayed</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WhatHaveYouPlayed.styles.css" asp-append-version="true" />
+    <link rel="icon" type="image/png" href="~/favicon.png" sizes="32x32">
+</head>
+<body class="bg-grey text-white">
+    <header class="sticky-top bg-secondary-purple">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-secondary-purple box-shadow mb-3 fw-bold">
+            <div class="container-fluid">
+                <a class="navbar-brand btn btn-secondary btn-purple text-white btn-lg fw-bold fs-3" asp-area="" asp-controller="Home" asp-action="Index">WhatHaveYouPlayed</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if(SignInManager.IsSignedIn(User)){
+                            <li class="nav-item">
+                                <a class="nav-link text-dark btn btn-lg btn-secondary btn-purple text-white fw-bold" asp-area="" asp-controller="Home" asp-action="AllGames">All Games</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark btn btn-lg btn-secondary btn-purple text-white fw-bold" asp-area="" asp-controller="Home" asp-action="MyGames">My Games</a>
+                            </li>
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />    <!-- Adding partial layout view to the main layout view -->
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container mb-3">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="bg-secondary-green footer text-white">
+        <div class="container text-center">
+            &copy; 2022 - WhatHaveYouPlayed - The site has been created for educational purposes only!
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

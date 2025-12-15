@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model IEnumerable<BlogPost>
+
+@{
+    //Checking: is loged in user is Admin?
+    var isUserAdmin = false;
+    if(SignInManager.IsSignedIn(User)){
+        var user = await UserManager.FindByNameAsync(User.Identity.Name);
+        var userRoles = await UserManager.GetRolesAsync(user);
+        if (userRoles.Contains("Admin"))
+            isUserAdmin = true;
+    }
+}
+
+<div class="container mt-5">
+    @foreach(var blog in Model){
+        <div class="row my-border-orange mb-3">
+            @*Post Id info for Admins*@
+            @if (isUserAdmin)
+            {
+                <h3 class="bg-success">Post Id: @blog.PostId</h3>
+            }
+            <div class="col-lg-6">
+                <figure>
+                    <blockquote class="blockquote">
+                        <p>@Html.DisplayFor(item => blog.Title)</p>
+                        <p>@Html.DisplayFor(item => blog.Content)</p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer">
+                        @String.Format("{0:dd/MM/yyyy}", blog.PostDate) Post by: @Html.DisplayFor(item => blog.Author.UserName)
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="col-lg-6 text-center">
+                @if(!(blog.PostImgSrc == null)){
+                    <img src="@ViewBag.PostImagePath/@blog.PostImgSrc" style="width: 75%" />
+                }
+            </div>
+        </div>
+    }
+</div>

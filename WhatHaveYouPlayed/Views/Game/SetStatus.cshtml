@@ -1,0 +1,45 @@
+﻿@model UserGameData 
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 bg-purple rounded p-0">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card" style="width: 18rem;">
+                        <img src="@ViewBag.GameImagePath/@Model.Game.ImgSrc" class="card-img-top" alt="Game Image">
+                        <div class="card-body text-black">
+                            <h5 class="card-title text-center">@Model.Game.Name</h5>
+                        </div>
+                        <ul class="list-group list-group-flush fw-bold">
+                            <li class="list-group-item">
+                                @Html.DisplayNameFor(item => item.Game.Producent): @Model.Game.Producent.CompanyName
+                            </li>
+                            <li class="list-group-item">
+                                @Html.DisplayNameFor(item => item.Game.ReleaseDate): @String.Format("{0:dd/MM/yyyy}", Model.Game.ReleaseDate)
+                            </li>
+                            @{
+                                if (Model.Game.PegiAge >= 18) ViewBag.ForAdult = "bg-danger"; else ViewBag.ForAdult = "";
+                            }
+                            <li class="list-group-item @ViewBag.ForAdult">
+                                @Html.DisplayNameFor(item => item.Game.PegiAge): @Model.Game.PegiAge+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 m-auto p-5">
+                    <form asp-action="SetStatus" method="post">
+                        <input type="hidden" asp-for="GameId" readonly value="@Model.GameId" />
+                        <input type="hidden" asp-for="Game" readonly value="@Model.Game" />
+                        <select class="form-select form-control fw-bold" asp-for="StateId" aria-label="Default select example">
+                            <option value="2" selected class="fw-bold">Playing</option>
+                            <option value="3" class="bg-success fw-bold">Complete</option>
+                            <option value="4" class="bg-primary fw-bold">Planning</option>
+                            <option value="5" class="bg-info fw-bold">Awaiting</option>
+                            <option value="6" class="bg-danger fw-bold">Dropped</option>
+                        </select>
+                        <button class="btn btn-primary mt-3 text-center" type="submit" value="SetStatus">Add Status</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

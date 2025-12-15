@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+@using WhatHaveYouPlayed.Models.Dto
+@model AccountDto
+
+<div class="container text-black text-center">
+    <partial name="_ChangeMessagePartial" />
+    <div class="row mt-5">
+        <div class="col-lg-6">
+            <partial name="_OverviewPartial" />
+        </div>
+        <div class="col-lg-4">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+@await RenderSectionAsync("Scripts", required: false)
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+    }

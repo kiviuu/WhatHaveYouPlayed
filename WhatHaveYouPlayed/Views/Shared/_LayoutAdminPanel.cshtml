@@ -1,0 +1,53 @@
+﻿@using WhatHaveYouPlayed.Models.Dto
+@model PanelDto
+@{
+    Layout = "_LayoutPanel";
+}
+<div class="row">
+    <partial name="_AdminActionMessagePartial" />
+    <div class="col-lg-4 p-0">
+        <div class="card my-aside-panel w-100">
+            <div class="card-title bg-primary fw-bold text-center mb-0 p-2">
+                <h2>Messages from Users</h2>
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach (var message in Model.userMessages)
+                {
+                    <li class="list-group-item">
+                        <h5>
+                            <a class="btn btn-close btn-danger" type="submit" asp-route-messageId=@message.MessageId asp-action="DeleteMessage"></a>
+                            @message.Topic
+                         </h5>
+                        <blockquote class="blockquote" style="font-size: 18px;">
+                            @message.Content
+                        </blockquote>
+
+                        <blockquote class="blockquote-footer">@message.User.UserName <br />@String.Format("{0:dd/MM/yyyy HH:mm}", message.CreateTime)</blockquote>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-8 text-black">
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <div class="btn-group mb-5" role="group">
+                    <a class="btn btn-lg btn-primary fw-bold" asp-action="CreatePost">Create Post</a>
+                    <a class="btn btn-lg btn-primary fw-bold" asp-action="DeletePost">Delete Post</a>
+                    <a class="btn btn-lg btn-primary fw-bold" asp-action="AddGame">Add Game</a>
+                    <a class="btn btn-lg btn-primary fw-bold" asp-action="DeleteGame">Delete Game</a>
+                </div>
+            </div>
+            <div class="row">
+                @RenderBody()
+            </div>
+        </div>
+
+    </div>
+</div>
+@await RenderSectionAsync("Scripts", required: false)
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+    }

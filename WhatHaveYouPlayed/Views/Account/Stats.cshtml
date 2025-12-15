@@ -1,0 +1,19 @@
+﻿@using WhatHaveYouPlayed.Models.Dto
+@model AccountDto
+@{
+    Layout = "/Views/Shared/_LayoutOverview.cshtml";
+}
+
+<div class="card" style="width: 18rem;">
+    <div class="card-header text-white bg-purple fw-bold">
+        STATISTICS
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item fw-bold text-black">All: @Model.Statistics.Added</li>
+        <li class="list-group-item fw-bold text-warning">Playing: @Model.Statistics.Playing</li>
+        <li class="list-group-item fw-bold text-success">Complete: @Model.Statistics.Complete</li>
+        <li class="list-group-item fw-bold text-primary">Planning: @Model.Statistics.Planning</li>
+        <li class="list-group-item fw-bold text-info">Awaiting: @Model.Statistics.Awaiting</li>
+        <li class="list-group-item fw-bold text-danger">Dropped: @Model.Statistics.Dropped</li>
+    </ul>
+</div>

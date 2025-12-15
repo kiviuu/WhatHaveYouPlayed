@@ -1,0 +1,78 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model IEnumerable<WhatHaveYouPlayed.Models.GameData> 
+
+@{
+    //Checking: is loged in user is Admin?
+    var isUserAdmin = false;
+    if (SignInManager.IsSignedIn(User))
+    {
+        var user = await UserManager.FindByNameAsync(User.Identity.Name);
+        var userRoles = await UserManager.GetRolesAsync(user);
+        if (userRoles.Contains("Admin"))
+            isUserAdmin = true;
+    }
+}
+<div class="row mb-4">
+    <form asp-controller="Home" asp-action="AllGames" method="get">
+        <div class="input-group">
+            <input type="text"
+                   name="searchString"
+                   class="form-control"
+                   placeholder="Search name..."
+                   value="@ViewData["CurrentFilter"]" />
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Szukaj</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container text-center">
+    @foreach (var item in Model)
+    {
+        <div class="row fw-bold fs-5 fst-italic mb-4 overflow-auto bg-purple p-0 pb-2">
+        @*Post Id info for Admins*@
+            @if (isUserAdmin)
+            {
+                <h3 class="bg-success text-start mb-2">Game Id: @item.GameId</h3>
+            }
+            <div class="col-lg-2 m-auto" title="Game Name">
+                <figure>
+                    <blockquote class="blockquote">
+                        <p>@Html.DisplayFor(moldelItem => item.Name)</p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer">
+                        @Html.DisplayNameFor(modelItem => modelItem.Name)
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="col-lg-2 m-auto" title="Producent Name">
+                <figure>
+                    <blockquote class="blockquote">
+                        <p>@Html.DisplayFor(moldelItem => item.Producent.CompanyName)</p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer">
+                        @Html.DisplayNameFor(modelItem => modelItem.Producent)
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="col-lg-2 m-auto" title="Release Date">
+                <figure>
+                    <blockquote class="blockquote">
+                        <p>@String.Format("{0:dd/MM/yyyy}", item.ReleaseDate)</p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer">
+                        @Html.DisplayNameFor(modelItem => modelItem.ReleaseDate)
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="col-lg-4 m-auto" title="Game Image">
+                <img src="@ViewBag.GameImagePath/@item.ImgSrc" width="300"/>
+            </div>
+            <div class="col-lg-2 m-auto" title="Set Status Action">
+                <a class="btn btn-lg text-white btn-primary fw-bold" asp-controller="Game" asp-action="SetStatus" asp-route-id="@item.GameId">Set Status</a>
+            </div>
+        </div>
+    }
+</div>
