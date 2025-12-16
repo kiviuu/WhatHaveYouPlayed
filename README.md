@@ -38,6 +38,7 @@ Setup (Visual Studio):
 NOTE: Use exact package versions if you need to match the environment; otherwise `dotnet restore` will restore compatible versions.
 
 Setup (Docker):
+NOTE: docker files are stored in Git LFS!
 1. Use proper file from repository: `whyp-app-amd64.tar` or `whyp-app-arm64.tar` based on which architecture you use.
 2. From localization with proper file run `docker load` in order to load docker image. Examples:
    - docker load -i .\whyp-app-amd64.tar (Windows)
