@@ -17,10 +17,11 @@ Additional libraries used:
 - Microsoft.AspNetCore.Identity.UI 6.0.10
 - Microsoft.EntityFrameworkCore 6.0.36
 - Microsoft.EntityFrameworkCore.SqlServer 6.0.10
+- Microsoft.EntityFrameworkCore.Sqlite 6.0.36 (for docker images)
 - Microsoft.EntityFrameworkCore.Tools 6.0.10
 - Microsoft.VisualStudio.Web.CodeGeneration.Design 6.0.10
 
-Setup:
+Setup (Visual Studio):
 1. Clone / download and unzip the repository.
 2. Open `WhatHaveYouPlayed.sln` in Visual Studio 2022+ or load the project with the CLI.
 3. Restore packages: `dotnet restore` or use __Tools > NuGet Package Manager__ -> __Manage NuGet Packages for Solution__.
@@ -34,10 +35,18 @@ Setup:
 6. Populate initial data: run `init-values.sql` against the created database.
 7. Configure JWT secrets if needed using __Manage User Secrets__ or `dotnet user-secrets` (`Jwt:Key`, `Jwt:Issuer`, `Jwt:Audience`).
 8. Run the application (`dotnet run` or __Debug > Start Debugging__ in Visual Studio).
+NOTE: Use exact package versions if you need to match the environment; otherwise `dotnet restore` will restore compatible versions.
 
+Setup (Docker):
+1. Use proper file from repository: `whyp-app-amd64.tar` or `whyp-app-arm64.tar` based on which architecture you use.
+2. From localization with proper file run `docker load` in order to load docker image. Examples:
+   - docker load -i .\whyp-app-amd64.tar (Windows)
+   - docker load < whyp-app-amd64.tar (MacOS)
+3. Run new container with loaded image. For example use `docker run -d --name whyp -p 80:80 -p 443:443 whathaveyouplayed:1.0`
+NOTE: This is only for testing purposes - database fill is included into docker image (Sqlite)!
 Important:
 - Temporary admin user created for development: Login=`admin`, Password=`Polska11!`.
-- Use exact package versions if you need to match the environment; otherwise `dotnet restore` will restore compatible versions.
+
 
 Short description of functionality:
 - User registration, login and role-based access using ASP.NET Core Identity.
