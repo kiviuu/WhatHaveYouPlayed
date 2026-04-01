@@ -3,8 +3,8 @@ Short description of functionality:
 - User registration, login and role-based access using ASP.NET Core Identity.
 - Optional JWT authentication for API scenarios.
 - Adding, editing and deleting games in a personal collection
-- Tracking game status (e.g., Playing, Completed, Planning, Dropped), rating and playtime
-- Browsing the game catalog with filtering and search
+- Tracking personal game status (e.g., Playing, Completed, Planning, Dropped)
+- Browsing the game catalog with filtering (status) and search
 
 
 Technology used: .NET 6 - Razor Pages (ASP.NET Core)
